@@ -4,6 +4,7 @@ import LayOut from "./components/LayOut/LayOut";
 import {Route, Routes} from "react-router-dom";
 import AddForm from "./containers/Forms/AddForm";
 import EditForm from "./containers/Forms/EditForm";
+import Home from "./containers/Home/Home";
 
 const App = () => {
 
@@ -12,7 +13,7 @@ const App = () => {
           <LayOut>
               <Routes>
                   <Route path="/" element={(
-                      <h1>HOME!</h1>
+                      <Home />
                   )} />
                   <Route path="/new-contact" element={(
                       <AddForm />

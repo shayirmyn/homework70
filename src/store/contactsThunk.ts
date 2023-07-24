@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosApi from "../axiosApi";
-import {IGet} from "../types";
+import {IApiGet, IGet, IGet2} from "../types";
 
 export const postContacts = createAsyncThunk<void, IGet>(
     "post/fetch",
@@ -19,5 +19,26 @@ export const getOneContact = createAsyncThunk<IGet | null, string>(
         }
 
         return null;
+    },
+);
+
+export const getAllContacts = createAsyncThunk<IGet2[], undefined>(
+    "getAll/fetch",
+    async () => {
+        const request = await axiosApi<IApiGet | null>("/contacts.json");
+        const requestData = request.data;
+
+        let newContacts: IGet2[] = [];
+
+        if (requestData) {
+            newContacts = Object.keys(requestData).map((key) => {
+                return {
+                    ...requestData[key],
+                    id: key,
+                };
+            });
+        }
+
+        return newContacts;
     },
 );

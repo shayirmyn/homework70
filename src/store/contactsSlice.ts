@@ -1,9 +1,9 @@
-import {IGet} from "../types";
+import {IGet, IGet2} from "../types";
 import { createSlice } from "@reduxjs/toolkit";
-import {getOneContact, postContacts} from "./contactsThunk";
+import {getAllContacts, getOneContact, postContacts} from "./contactsThunk";
 
 interface IShowsState {
-    contacts: IGet[];
+    contacts: IGet2[] | [];
     contact: IGet | null;
     getLoading: boolean;
     editLoading: boolean;
@@ -48,6 +48,19 @@ const getContacts = createSlice({
 
         builder.addCase(getOneContact.rejected, state => {
             state.getOneLoading = false;
+        });
+
+        builder.addCase(getAllContacts.pending, state => {
+            state.getLoading = true;
+        });
+
+        builder.addCase(getAllContacts.fulfilled, (state, {payload}) => {
+            state.getLoading = false;
+            state.contacts = payload;
+        });
+
+        builder.addCase(getAllContacts.rejected, state => {
+            state.getLoading = false;
         });
     },
 });
