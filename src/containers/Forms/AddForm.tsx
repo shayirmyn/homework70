@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {NavLink, useNavigate, useParams} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import {ISubmit} from "../../types";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import BtnSpinner from "../../components/Spinners/BtnSpinner";
@@ -14,11 +14,7 @@ interface IProps {
 const AddForm: React.FC<IProps> = ({title, btnTitle, edit}) => {
     const loading = useAppSelector(state => state.contacts)
     const dispatch = useAppDispatch();
-
-
     const navigate = useNavigate();
-
-    const { id } = useParams();
 
     const initialState = edit
         ? {
@@ -105,7 +101,7 @@ const AddForm: React.FC<IProps> = ({title, btnTitle, edit}) => {
                     </div>
                     <div className="form-group mt-3 divImg">
                         <label htmlFor="description">Photo preview: </label>
-                        <img src={submitData.photo} alt="photo"/>
+                        <img src={submitData.photo} alt="contactPhoto"/>
                     </div>
                     <button disabled={loading.postLoading || loading.editLoading}
                             type="submit"

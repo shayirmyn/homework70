@@ -1,20 +1,29 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {useParams} from "react-router-dom";
-import {ISubmit} from "../../types";
 import AddForm from "./AddForm";
 import Spinner from "../../components/Spinners/Spinner";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {getOneContact} from "../../store/contactsThunk";
 
 const EditForm = () => {
 
     const { id } = useParams();
 
-    const [edit, setEdit] = useState<ISubmit | null>(null);
+    const dispatch = useAppDispatch();
 
-    const [loading, setLoading] = useState(false);
+    const edit = useAppSelector(state => state.contacts.contact);
+
+    const loading = useAppSelector(state => state.contacts);
+
+    useEffect(() => {
+        if (id) {
+            dispatch(getOneContact(id));
+        }
+    }, [dispatch, id]);
 
     return (
         <div>
-            {!loading && edit ? (
+            {!loading.getOneLoading && edit ? (
                 <AddForm
                     title="Edit contact"
                     btnTitle="Edit"

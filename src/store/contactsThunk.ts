@@ -8,3 +8,16 @@ export const postContacts = createAsyncThunk<void, IGet>(
         await axiosApi.post(`/contacts.json`, data);
     },
 );
+
+export const getOneContact = createAsyncThunk<IGet | null, string>(
+    "getOne/fetch",
+    async (id) => {
+        const request = await axiosApi(`/contacts/${id}.json`);
+
+        if (request.data) {
+            return request.data;
+        }
+
+        return null;
+    },
+);

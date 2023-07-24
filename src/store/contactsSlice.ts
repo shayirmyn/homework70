@@ -1,10 +1,10 @@
-import {IGet, ISubmit} from "../types";
+import {IGet} from "../types";
 import { createSlice } from "@reduxjs/toolkit";
-import {postContacts} from "./contactsThunk";
+import {getOneContact, postContacts} from "./contactsThunk";
 
 interface IShowsState {
     contacts: IGet[];
-    contact: ISubmit | null;
+    contact: IGet | null;
     getLoading: boolean;
     editLoading: boolean;
     getOneLoading: boolean;
@@ -35,6 +35,19 @@ const getContacts = createSlice({
 
         builder.addCase(postContacts.rejected, state => {
             state.postLoading = false;
+        });
+
+        builder.addCase(getOneContact.pending, state => {
+            state.getOneLoading = true;
+        });
+
+        builder.addCase(getOneContact.fulfilled, (state, {payload}) => {
+            state.getOneLoading = false;
+            state.contact = payload;
+        });
+
+        builder.addCase(getOneContact.rejected, state => {
+            state.getOneLoading = false;
         });
     },
 });
